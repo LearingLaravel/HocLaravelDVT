@@ -36,7 +36,7 @@
                         <td><img src="{{ $car->image }}" alt="Car Image" class="img-thumbnail" style=""></td>
                         <td>{{ $car->description }}</td>
                         <td>
-                            <img src="{{ asset('uploads/car/'.$car->brand) }}" alt="Brand Image" class="img-thumbnail" style="">
+                            <img src="{{ asset($car->brand) }}" alt="Brand Image" class="img-thumbnail" style="">
                         </td>
                         
                         <td>{{ $car->model }}</td>

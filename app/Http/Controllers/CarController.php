@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+
 class CarController extends Controller
 {
     /**
@@ -12,7 +14,7 @@ class CarController extends Controller
     public function index()
     {
         $cars = Car::all();
-        return view ('car-list', compact('cars'));
+        return view('car-list', compact('cars'));
     }
 
 
@@ -21,46 +23,70 @@ class CarController extends Controller
      */
     public function create()
     {
-       return view ('car-create');
+        return view('car-create');
     }
 
 
     /**
      * Store a newly created resource in storage. luu doi tuong them moi vao database
      */
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'model' => 'required|max:255|string',
+    //         'description' => 'required|max:255|string',
+    //         'brand' => 'require|mimes:png,jpg,jpeg,webp,gif',
+    //         'produced_on' => 'required|date',
+    //         'image' => 'required|max:255|string'
+    //     ]);
+    //     if ($request -> has('brand')) {
+    //         $file = $request -> file('brand');
+    //         $extension = $file -> getClientOriginalExtension();
+    //         $path = 'uploads/image/';
+    //         $filename = time(). '.'. $extension;
+    //         $file -> move($path, $filename);
+    //     }
+    //     Car::create([
+    //         'model' =>$request->model,
+    //         'description' => $request->description,
+    //         'brand' =>  $path.$filename,
+    //         'produced_on' => $request->produced_on,
+    //         'image' => $request->image
+    //     ]);
+    //     return redirect('cars/create')->with('status', 'Car created successfully');
+    // }
+
+
     public function store(Request $request)
     {
         $request->validate([
             'model' => 'required|max:255|string',
             'description' => 'required|max:255|string',
-            'brand' => 'nullable|mimes:png,jpg,jpeg,webp,gif',
+            'brand' => 'required|mimes:png,jpg,jpeg,webp,gif',
             'produced_on' => 'required|date',
             'image' => 'required|max:255|string'
         ]);
-        
-        if ($request -> has('brand')) {
-            $file = $request -> file('brand');
-            $extension = $file -> getClientOriginalExtension();
 
-            $filename = time(). '.'. $extension;
-           
-            $file -> move( $filename);
+        if ($request->hasFile('brand')) {
+            $file = $request->file('brand');
+            $extension = $file->getClientOriginalExtension();
+            $path = 'uploads/image/';
+            $filename = time() . '.' . $extension;
+            $file->move($path, $filename);
+        } else {
+            // Handle the case when 'brand' file is not present
+            return redirect('cars/create')->withErrors(['brand' => 'The brand field is required.']);
         }
 
-
         Car::create([
-            'model' =>$request->model,
+            'model' => $request->model,
             'description' => $request->description,
-            'brand' =>$filename,
+            'brand' => $path . $filename,
             'produced_on' => $request->produced_on,
             'image' => $request->image
         ]);
 
         return redirect('cars/create')->with('status', 'Car created successfully');
-
-
-    
-
     }
 
 
@@ -70,8 +96,8 @@ class CarController extends Controller
     public function show(string $id)
     {
         $car = Car::find($id);
-       // dd($car);
-       return view ('car-detail', compact('car'));
+        // dd($car);
+        return view('car-detail', compact('car'));
     }
 
 
@@ -82,7 +108,7 @@ class CarController extends Controller
     {
         $car = Car::findOrFail($id);
         // return $car;
-        return view ('car-edit', compact('car'));
+        return view('car-edit', compact('car'));
     }
 
 
@@ -101,20 +127,22 @@ class CarController extends Controller
 
         $car = Car::findOrFail($id);
 
-        if ($request -> has('brand')) {
-            $file = $request -> file('brand');
-            $extension = $file -> getClientOriginalExtension();
-
-            $filename = time(). '.'. $extension;
+        if ($request->has('brand')) {
+            $file = $request->file('brand');
+            $extension = $file->getClientOriginalExtension();
+            $path = 'uploads/image/';
             
-            $file -> move($filename);
+            $filename = time() . '.' . $extension;
 
-            if (File::exists($car->brand)){
+            $file->move($path, $filename);
+
+            if (File::exists($car->brand)) {
                 File::delete($car->brand);
             }
+           
         }
         $car->update([
-            'model' =>$request->model,
+            'model' => $request->model,
             'description' => $request->description,
             'brand' => $filename,
             'produced_on' => $request->produced_on,
@@ -132,12 +160,11 @@ class CarController extends Controller
     {
         $car = Car::findOrFail($id);
 
-        if (File::exists($car->brand)){
+        if (File::exists($car->brand)) {
             File::delete($car->brand);
         }
 
-        $car->delete(); 
+        $car->delete();
         return redirect()->back()->with('status', 'Car deleted successfully');
     }
-
 }

@@ -27,7 +27,6 @@
             <div class="card-body">
               <form action="{{ url('cars/create') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-
                 <div class="form-group">
                   <label for="model">Model:</label>
                   <input type="text" name="model" id="model" class="form-control" value="{{old('model')}}">
