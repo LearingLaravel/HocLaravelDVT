@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('car-list');
+// });
 
 
 
-Route::get('/cars', [CarController::class, 'index']);
+ Route::get('/', [CarController::class, 'index']);
 
 Route::get('/car/{id}', [CarController::class, 'show'])->name('car.detail');
 

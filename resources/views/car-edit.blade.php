@@ -29,7 +29,7 @@
                 @csrf
                 @method('PUT')
                 <div class="form-group">
-                  <label for="model">Model:</label>
+                  <label for="model">Model</label>
                   <input type="text" name="model" id="model" class="form-control" value="{{$car->model}}">
                   @error('model')
                     <span class="text-danger">{{$message}}</span>
@@ -45,12 +45,29 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="brand">Link brand/label>
-                  <input type="file" name="brand" id="brand" class="form-control">
+                  <label for="brand">Upload Image</label>
+                  {{-- <input type="file" name="brand" id="brand" class="form-control" value='{{$car->brand}}' onchange="previewImage(event)" >    --}}
+                  <input type="file" name="brand" id="brand" class="form-control" value='{{$car->brand}}' onchange="previewImage(event)">
+                  <img src="{{ asset($car->brand)}}" width="200px" height="200px" id="preview" class="" alt="">
                   @error('brand')
                     <span class="text-danger">{{$message}}</span>
                   @enderror
                 </div>
+                
+                <script>
+                function previewImage(event) {
+                  var input = event.target;
+                  var reader = new FileReader();
+                
+                  reader.onload = function() {
+                    var imgElement = document.getElementById("preview");
+                    imgElement.src = reader.result;
+                  };
+                
+                  reader.readAsDataURL(input.files[0]);
+                }
+                </script>
+
 
                 <div class="form-group">
                   <label for="produced_on">Produced On:</label>
@@ -70,7 +87,7 @@
 
                 <div class="mb-3">
                   <button type="submit" class="btn btn-primary">Edit</button>
-                  <a href="{{url('cars')}}" class="btn btn-primary float-end">Back</a>
+                  <a href="{{url('/')}}" class="btn btn-primary float-end">Back</a>
                 </div>
               </form>
             </div>
