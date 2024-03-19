@@ -13,8 +13,13 @@ class Car extends Model
        'description',
        'brand',
        'produced_on',
-       'image'
+       'image',
+        "mf_id" 
     ];
     protected $table = 'cars';
+    public function mf()
+    {
+        return $this->belongsTo(Mf::class);
+    }
     
 }

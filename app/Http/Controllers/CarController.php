@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Car;
+use App\Models\Mf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -13,8 +14,13 @@ class CarController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $cars = Car::all();
+    {   
+        $cars = Car::select('cars.id', 'cars.image', 'cars.description', 'cars.brand', 'cars.model', 'cars.produced_on', 'cars.mf_id', 'mfs.mf_name')
+        ->join('mfs', 'cars.mf_id', '=', 'mfs.id')
+        ->get();
+
+    // return response()->json($cars);
+    //     $cars = Car::all();
         return view('car-list', compact('cars'));
     }
 

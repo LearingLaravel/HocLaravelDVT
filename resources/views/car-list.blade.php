@@ -25,6 +25,8 @@
                     <th>Brand</th>
                     <th>Model</th>
                     <th>Produced On</th>
+                    <th>ID_Mf</th>
+                    <th>Name_MF</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -41,6 +43,9 @@
                         
                         <td>{{ $car->model }}</td>
                         <td>{{ $car->produced_on }}</td>
+                        <td>{{ $car->mf_id }}</td>
+                        <td>{{ $car->mf_name }}</td>
+                     
                         <td>
                             <div class="btn-group" role="group" aria-label="Car Actions">
                             <a href="car/{{$car->id}}" class="btn btn-primary"> Detail</a>
