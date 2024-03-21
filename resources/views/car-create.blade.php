@@ -72,7 +72,19 @@
                   @error('brand')
                       <span class="text-danger">{{ $message }}</span>
                   @enderror
-              </div>
+                </div>
+
+           
+                  <div class="form-group">
+                    <label for="mf_id">Hãng xe</label>
+                    <select name="mf_id" class="form-control">
+                        <option value="">Chọn hãng xe</option>
+                        @foreach($mf_names as $id => $name)
+                            <option value="{{ $id }}">{{ $name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+             
                
               <script>
                 var loadFile = function(output) {

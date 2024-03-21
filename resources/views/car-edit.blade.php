@@ -86,6 +86,19 @@
                   @enderror
                 </div>
 
+                <div class="form-group">
+                  <label for="mf_id">Hãng xe</label>
+                  <select name="mf_id" class="form-control">
+                      <option value="">Chọn hãng xe</option>
+                      @foreach($mf_names as $id => $name)
+                          <option value="{{ $id }}" {{ (old('mf_id', $car->mf_id) == $id) ? 'selected' : '' }}>
+                              {{ $name }}
+                          </option>
+                      @endforeach
+                  </select>
+              </div>
+
+
                 <div class="mb-3">
                   <button type="submit" class="btn btn-primary">Edit</button>
                   <a href="{{url('/')}}" class="btn btn-primary float-end">Back</a>
