@@ -7,6 +7,8 @@ use App\Models\Car;
 use App\Models\Mf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+
 
 class CarController extends Controller
 {
@@ -15,12 +17,14 @@ class CarController extends Controller
      */
     public function index()
     {   
-        $cars = Car::select('cars.id', 'cars.image', 'cars.description', 'cars.brand', 'cars.model', 'cars.produced_on', 'cars.mf_id', 'mfs.mf_name')
-        ->join('mfs', 'cars.mf_id', '=', 'mfs.id')
-        ->get();
+        // $cars = Car::select('cars.*', 'mfs.mf_name')
+        // ->join('mfs', 'cars.mf_id', '=', 'mfs.id')
+        // ->get();
 
-    // return response()->json($cars);
-    //     $cars = Car::all();
+        // return view('car-list', compact('cars'));
+    
+        // $mfs= DB::table('mfs')->get();
+        $cars = Car::all();
         return view('car-list', compact('cars'));
     }
 

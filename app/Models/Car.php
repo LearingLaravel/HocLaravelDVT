@@ -17,9 +17,12 @@ class Car extends Model
         "mf_id" 
     ];
     protected $table = 'cars';
+
+//     return $this->belongsTo('App\Models\Mf', 'foreign_key của
+//     Car', 'KHÓA CHÍNH của Car');
     public function mf()
     {
-        return $this->belongsTo(Mf::class);
+        return $this->belongsTo('App\Models\Mf','mf_id','id' );
     }
     
 }

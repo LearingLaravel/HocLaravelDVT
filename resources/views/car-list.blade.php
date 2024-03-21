@@ -44,7 +44,15 @@
                         <td>{{ $car->model }}</td>
                         <td>{{ $car->produced_on }}</td>
                         <td>{{ $car->mf_id }}</td>
-                        <td>{{ $car->mf_name }}</td>
+                        {{-- <td>
+                            @foreach ($mfs as $mf)
+                                @if ($mf->id == $car->mf_id)
+                                    {{ $mf->mf_name }}
+                                @endif
+                            @endforeach
+                           
+                        </td> --}}
+                        <td>{{ $car->mf->mf_name }}</td>
                      
                         <td>
                             <div class="btn-group" role="group" aria-label="Car Actions">
